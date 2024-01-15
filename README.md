@@ -1,66 +1,24 @@
-## Foundry
+# Token Sale Smart Contract
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+This repository contains a Solidity smart contract for a token sale with both presale and public sale phases. The contract is designed to be deployed on the Ethereum blockchain and allows users to contribute Ether in exchange for project tokens.
 
-Foundry consists of:
+## Features
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+- **Presale and Public Sale:** Users can contribute Ether during both the presale and public sale phases to receive project tokens.
 
-## Documentation
+- **Caps and Limits:** The token sale has maximum caps on the total Ether that can be raised during the presale and public sale. There are also minimum and maximum contribution limits per participant.
 
-https://book.getfoundry.sh/
+- **Token Distribution:** Project tokens are distributed immediately upon contribution.
 
-## Usage
+- **Refund Mechanism:** If the minimum cap for either the presale or public sale is not reached, contributors can claim a refund after the active period.
 
-### Build
+## Development Tools
+This project was developed using the Foundry development environment for Ethereum smart contracts.
 
-```shell
-$ forge build
-```
+## Static Analysis
+Slither has been used for automatic static analysis to ensure the contract's security and efficiency.
 
-### Test
+## Gas Optimization
+- The contract has undergone gas optimization strategies during development to reduce transaction costs and improve efficiency.
+- Find the @audit tags for the gas optimizations
 
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
