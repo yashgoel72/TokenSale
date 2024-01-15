@@ -32,7 +32,6 @@ contract TokenSaleTest is Test {
         _presaleStartTime,
         _presaleEndTime,
         _publicSaleStartTime,
-        _publicSaleEndTime);
-    
+        _publicSaleEndTime);  
 }
 }

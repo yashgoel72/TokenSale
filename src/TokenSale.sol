@@ -46,7 +46,9 @@ contract TokenSale is ERC20 {
         require(block.timestamp >= publicSaleStartTime && block.timestamp <= publicSaleEndTime, "Public sale is not active");
         _;
     }
-
+        /**[G-1]Constructors can be marked as payable to save deployment gas
+Payable functions cost less gas to execute, because the compiler does not have to add extra checks to ensure that no payment is provided. A constructor can be safely marked as payable, because only the deployer would be able to pass funds, and the project itself would not pass any funds.
+**/
     constructor(
         uint256 _presaleMinCap,
         uint256 _publicSaleMinCap,
@@ -60,7 +62,7 @@ contract TokenSale is ERC20 {
         uint256 _presaleEndTime,
         uint256 _publicSaleStartTime,
         uint256 _publicSaleEndTime
-    ) ERC20("ProjectToken", "PROJ") {
+    ) ERC20("ProjectToken", "PROJ") payable{
         require(_presaleMaxCap >= 0 && _publicSaleMaxCap >= 0, "Caps must be greater than 0");
         require(_presaleMaxCap >= _presaleMinCap && _publicSaleMaxCap >= _presaleMinCap, "Max Cap must be greaterthan equal to Min Cap");
         require(_presaleMinContribution > 0 && _presaleMaxContribution >= _presaleMinContribution, "Invalid presale contribution limits");
@@ -100,7 +102,7 @@ contract TokenSale is ERC20 {
         uint256 tokensToTransfer = calculateTokens(msg.value, presaleMaxCap, address(this).balance);
         require(tokensToTransfer > 0, "Presale cap reached");
 
-        presaleContributions[msg.sender] += msg.value;
+        presaleContributions[msg.sender] = presaleContributions[msg.sender] + msg.value;    // @audit += costs more gas
         _transfer(address(this), msg.sender, tokensToTransfer);
 
         emit TokensPurchased(msg.sender, tokensToTransfer, msg.value);
@@ -115,7 +117,7 @@ contract TokenSale is ERC20 {
         uint256 tokensToTransfer = calculateTokens(msg.value, publicSaleMaxCap, address(this).balance);
         require(tokensToTransfer > 0, "Public sale cap reached");
 
-        publicSaleContributions[msg.sender] += msg.value;
+        publicSaleContributions[msg.sender] = publicSaleContributions[msg.sender] + msg.value; // @audit += costs more gas
         _transfer(address(this), msg.sender, tokensToTransfer);
 
         emit TokensPurchased(msg.sender, tokensToTransfer, msg.value);
@@ -139,7 +141,7 @@ contract TokenSale is ERC20 {
      * @param currentBalance The current balance of the contract.
      * @return The number of tokens to transfer.
      */
-    function calculateTokens(uint256 contributionAmount, uint256 saleCap, uint256 currentBalance) internal pure returns (uint256) {
+    function calculateTokens(uint256 contributionAmount, uint256 saleCap, uint256 currentBalance) internal pure returns (uint256) {         @audit check this funtion
         uint256 tokensToTransfer = (contributionAmount * TOKEN_SUPPLY) / saleCap;
         if (tokensToTransfer > currentBalance) {
             return 0;
