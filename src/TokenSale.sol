@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
-
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-
+pragma solidity ^0.8.20;
+import "/Users/yashgoel/Desktop/SupraOracles/TokenSale/lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
+// /Users/yashgoel/Desktop/SupraOracles/TokenSale/lib
 contract TokenSale is ERC20 {
     address owner;
     uint256 public constant DECIMALS = 18;
@@ -34,8 +33,8 @@ contract TokenSale is ERC20 {
     event RefundClaimed(address indexed contributor, uint256 amount);
 
     modifier onlyOwner() {
-    require(owner == msg.sender, "Only Owner Can call this function");
-    _;
+        require(owner == msg.sender, "Only Owner Can call this function");
+        _;
     }
 
     modifier onlyPresaleActive() {
